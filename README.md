@@ -18,9 +18,16 @@ repo is for an agent to be able to **drive them** directly — browse
 what's available, configure one, kick off a run, check its status — the
 same things a user would otherwise do by clicking around the 88eggs UI.
 
-For now, before any workflow endpoints exist, this repo starts with a
-single **read-only sample skill** listing existing projects, to prove
-out the calling convention before there's anything to automate.
+This started with a single **read-only sample skill** listing existing
+projects, to prove out the calling convention before there was anything
+to automate. Now that `88eggs-backend` has shipped the media API and the
+workflows framework (catalog + jobs + queue/worker — see
+`88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`),
+this repo also has skills to browse/organize media and to actually run
+a workflow end to end. No concrete workflow has shipped yet (the
+catalog is empty until one does), so `run-workflow` is exercised as far
+as the framework goes — browsing an empty catalog, or running whatever
+workflow does exist once one is seeded.
 
 ## Authentication
 
@@ -46,8 +53,13 @@ existed to do this properly instead.)
 ## Skills
 
 - **[list-projects](skills/list-projects/SKILL.md)** — list the
-  signed-in user's 88eggs projects via `88eggs projects list`. Sample
-  skill for now — see its `SKILL.md` for the exact flow.
+  signed-in user's 88eggs projects via `88eggs projects list`.
+- **[manage-media](skills/manage-media/SKILL.md)** — browse and
+  organize 88eggs media: list, view, tag, like, and move between
+  projects.
+- **[run-workflow](skills/run-workflow/SKILL.md)** — browse the
+  workflow catalog, configure and start a run, poll it to completion,
+  and report the result.
 
 ## Skill structure
 
