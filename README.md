@@ -21,13 +21,13 @@ same things a user would otherwise do by clicking around the 88eggs UI.
 This started with a single **read-only sample skill** listing existing
 projects, to prove out the calling convention before there was anything
 to automate. Now that `88eggs-backend` has shipped the media API and the
-workflows framework (catalog + jobs + queue/worker — see
+workflows framework (catalog + runs (each with a list of jobs, one per
+model called) + queue/worker — see
 `88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`),
 this repo also has skills to browse/organize media and to actually run
-a workflow end to end. No concrete workflow has shipped yet (the
-catalog is empty until one does), so `run-workflow` is exercised as far
-as the framework goes — browsing an empty catalog, or running whatever
-workflow does exist once one is seeded.
+a workflow end to end. Character Creation is the first concrete
+workflow to ship (image generation via Gemini), so `run-workflow` drives
+a real catalog entry now, not just an empty one.
 
 ## Authentication
 
