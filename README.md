@@ -1,7 +1,7 @@
 # 88eggs-skills
 
-Agent skills for talking to [`88eggs-backend`](https://github.com/thomaskwan/88eggs-backend).
-Install a skill into a project with:
+Agent skills for talking to `88eggs-backend` (private repo, not linked
+here). Install a skill into a project with:
 
 ```bash
 npx skills add ptk-studio/88eggs-skills --skill <skill-name>
