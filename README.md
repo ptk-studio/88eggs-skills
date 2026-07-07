@@ -19,29 +19,30 @@ what's available, configure one, kick off a run, check its status — the
 same things a user would otherwise do by clicking around the Rainbow UI.
 
 For now, before any workflow endpoints exist, this repo starts with a
-single **read-only sample skill** against the API that already exists
-(`GET /projects`), to prove out the calling convention before there's
-anything to automate.
+single **read-only sample skill** listing existing projects, to prove
+out the calling convention before there's anything to automate.
 
 ## Authentication
 
-Every skill here calls `rainbow-backend` as a specific signed-in user, so
-each needs a bearer token in the `Authorization` header — see each
-skill's own `SKILL.md` for exactly which environment variable it reads.
+Skills here don't call `rainbow-backend` directly, and don't handle any
+token themselves. Each one drives
+[`rainbow-cli`](https://github.com/ptk-studio/rainbow-cli) — the same
+pattern `vercel-labs/agent-skills`' deploy skill uses for the `vercel`
+CLI, and `supabase/agent-skills` uses for the `supabase` CLI. `rainbow`
+owns its own `login` (real Google OAuth, browser-based) and stores the
+session itself; a skill just checks `rainbow whoami` and runs `rainbow
+login` if needed, same as the reference skills check `vercel whoami` /
+the Supabase MCP connection.
 
-**Today**, the only way to get a valid token is a real Supabase session
-access token (e.g. copied out of a signed-in browser session) — it
-expires in about an hour, which is fine for trying a skill out but not a
-real workflow. A proper long-lived, revocable credential (a Rainbow
-Personal Access Token) is proposed in
-`rainbow-backend`'s `features/pending/` — skills here will move to that
-once it ships.
+(An earlier version of this README described skills calling the API
+directly with a manually-obtained token — superseded once `rainbow-cli`
+existed to do this properly instead.)
 
 ## Skills
 
 - **[list-projects](skills/list-projects/SKILL.md)** — list the
-  signed-in user's Rainbow projects (calls `GET /projects`). Sample skill
-  for now — see its `SKILL.md` for the exact request/response shape.
+  signed-in user's Rainbow projects via `rainbow projects list`. Sample
+  skill for now — see its `SKILL.md` for the exact flow.
 
 ## Skill structure
 

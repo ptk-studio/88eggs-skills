@@ -1,77 +1,66 @@
 ---
 name: list-projects
-description: List the signed-in user's Rainbow projects (owned and team-shared) by calling rainbow-backend's GET /projects. Use when the user asks to see, list, or check their Rainbow projects.
+description: List the signed-in user's Rainbow projects (owned and team-shared) by driving the rainbow CLI. Use when the user asks to see, list, or check their Rainbow projects.
 ---
 
 # List Projects
 
-Fetches the caller's own Rainbow projects — owned and shared with any
-team they belong to — from `rainbow-backend`.
+Lists the caller's own Rainbow projects — owned and shared with any team
+they belong to — by driving the [`rainbow` CLI](https://github.com/ptk-studio/rainbow-cli),
+the same way `vercel-labs`'s deploy skill drives the `vercel` CLI. This
+skill never handles a token directly; `rainbow` owns its own login.
 
-## Prerequisites
-
-Two environment variables:
-
-- `RAINBOW_API_URL` — the backend's base URL (e.g.
-  `https://rainbow-backend-two.vercel.app`, or `http://localhost:3000`
-  for local development).
-- `RAINBOW_API_TOKEN` — a bearer token for the signed-in user.
-
-If either is missing, tell the user what's needed rather than guessing —
-don't invent a URL or attempt the request without a token.
-
-**On `RAINBOW_API_TOKEN` today**: rainbow-backend doesn't yet have a
-long-lived credential a skill can use on its own (no OAuth/API-key
-flow — see `rainbow-backend/features/pending/` for the proposed Personal
-Access Token feature). Until that ships, this needs a real Supabase
-session access token, which expires in about an hour — fine for trying
-this skill, not for anything unattended. If the user doesn't have one
-handy, tell them to sign in to the Rainbow frontend and copy their
-session's access token, rather than trying to obtain one yourself.
-
-## Fetching projects
+## Step 1: Check the CLI is installed
 
 ```bash
-curl -s "$RAINBOW_API_URL/projects" \
-  -H "Authorization: Bearer $RAINBOW_API_TOKEN"
+command -v rainbow
 ```
 
-Optionally scope the list with a query param — `?scope=mine` (owned
-only) or `?scope=shared` (shared with a team only); omit for everything
-the caller can see (the default).
+If missing, tell the user to install it from
+[ptk-studio/rainbow-cli](https://github.com/ptk-studio/rainbow-cli)
+(`pnpm install && pnpm build && npm link`) rather than attempting to
+install it yourself.
 
-### Response shape
+## Step 2: Check sign-in state
 
-```json
-{
-  "projects": [
-    {
-      "id": "string",
-      "name": "string",
-      "description": "string | null",
-      "created_at": "ISO 8601 timestamp",
-      "updated_at": "ISO 8601 timestamp",
-      "owner_id": "string",
-      "team_id": "string | null",
-      "owner": { "id": "string", "full_name": "string | null" },
-      "team": { "id": "string", "name": "string" } | null
-    }
-  ]
-}
+```bash
+rainbow whoami
 ```
+
+- Prints the signed-in email and exits `0` → already signed in, go to
+  Step 3.
+- Prints `Not signed in. Run \`rainbow login\`.` and exits `1` → not
+  signed in.
+
+If not signed in, **tell the user and ask before proceeding** — `rainbow
+login` opens their browser for a real Google sign-in, which needs their
+own interaction:
+
+```
+You're not signed in to Rainbow. I can run `rainbow login`, which will
+open your browser to sign in with Google. Want me to proceed?
+```
+
+Once they confirm, run `rainbow login` and wait for it to complete (it
+prints "Signed in as `<email>`." on success) before continuing.
+
+## Step 3: List projects
+
+```bash
+rainbow projects list
+```
+
+Optionally scope it: `rainbow projects list --scope mine` (owned only)
+or `--scope shared` (shared with a team only); omit for everything the
+caller can see (the default).
+
+Each line is `<name> -- owner: <name> -- updated <timestamp>` (or `--
+shared with <team name> --` when shared). Present these to the user as
+a short summary, not the raw command output verbatim.
 
 ### Errors
 
-- `401 { "error": "Unauthorized" }` — missing/invalid/expired token. Tell
-  the user their token likely expired (Supabase session tokens are
-  short-lived) and to get a fresh one, rather than retrying the same
-  request.
-- Any other non-2xx: surface the response body's `error` message
-  directly rather than a generic failure.
-
-## Presenting results
-
-Summarize as a short list (name, owner or team if shared, last updated)
-rather than dumping the raw JSON — this mirrors how `/projects` renders
-in the Rainbow frontend itself (name, ownership badge, team, relative
-"updated" time).
+- Any non-zero exit with an `Error: ...` line on stderr — surface that
+  message directly. A `401`/session-related failure will say to run
+  `rainbow login` again; don't attempt to fix this yourself, tell the
+  user.
