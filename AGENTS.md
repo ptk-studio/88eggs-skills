@@ -1,30 +1,30 @@
-# Agent guidelines — rainbow-skills
+# Agent guidelines — 88eggs-skills
 
 A repo of `SKILL.md` files (the [Agent Skills](https://agentskills.io/)
 format) — no application code. See `README.md` for why this repo exists
-and how it relates to `rainbow-cli`/`rainbow-backend`/`rainbow-frontend`.
+and how it relates to `88eggs-cli`/`88eggs-backend`/`88eggs-frontend`.
 
-## Skills drive `rainbow-cli`, never call the API or handle a token directly
+## Skills drive `88eggs-cli`, never call the API or handle a token directly
 
 This is the one rule that matters most here, and the reason this repo
-looks the way it does: a skill's job is to orchestrate the `rainbow` CLI
-(`rainbow login`/`whoami`/`projects list`/etc.), the same way
+looks the way it does: a skill's job is to orchestrate the `88eggs` CLI
+(`88eggs login`/`whoami`/`projects list`/etc.), the same way
 `vercel-labs/agent-skills`' deploy skill drives the `vercel` CLI and
 `supabase/agent-skills` drives the `supabase` CLI. Concretely:
 
-- Never write a skill that calls `rainbow-backend`'s REST API with
+- Never write a skill that calls `88eggs-backend`'s REST API with
   `curl`/`fetch` directly, or that asks the user to paste a token into
-  an env var. If `rainbow-cli` doesn't yet have a command for something
-  a new skill needs, that's a `rainbow-cli` feature to add first, not a
+  an env var. If `88eggs-cli` doesn't yet have a command for something
+  a new skill needs, that's a `88eggs-cli` feature to add first, not a
   reason for the skill to route around it.
-- A skill checks auth state via `rainbow whoami` (fast, no network call
-  per `rainbow-cli`'s own design) before doing real work, and only runs
-  `rainbow login` after telling the user and getting their go-ahead —
+- A skill checks auth state via `88eggs whoami` (fast, no network call
+  per `88eggs-cli`'s own design) before doing real work, and only runs
+  `88eggs login` after telling the user and getting their go-ahead —
   it opens their browser for a real Google sign-in, which needs their
   own interaction and isn't something to trigger silently.
-- Never log, print, or echo anything from `~/.rainbow/credentials.json`.
+- Never log, print, or echo anything from `~/.88eggs/credentials.json`.
   A skill has no reason to read that file directly — everything it
-  needs comes back through `rainbow`'s own command output.
+  needs comes back through `88eggs`'s own command output.
 
 ## `SKILL.md` format
 
@@ -44,8 +44,8 @@ looks the way it does: a skill's job is to orchestrate the `rainbow` CLI
 1. `mkdir skills/<name>` and write `skills/<name>/SKILL.md`.
 2. Add it to the `## Skills` list in `README.md` with a one-line
    description.
-3. If it needs a `rainbow-cli` command that doesn't exist yet, add that
-   to `rainbow-cli` first (see that repo's own `AGENTS.md`), verify it
+3. If it needs a `88eggs-cli` command that doesn't exist yet, add that
+   to `88eggs-cli` first (see that repo's own `AGENTS.md`), verify it
    manually, then write the skill against the real, working command —
    don't write a skill against a command you're assuming will exist.
 
