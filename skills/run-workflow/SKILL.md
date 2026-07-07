@@ -94,27 +94,39 @@ value (e.g. they described what they want the `prompt` to be).
 - Repeat `--param key=value` for every field you're overriding; leave
   the rest to fall back to their defaults (Step 4).
 
-On success this prints `Job <id> queued (workflow: <slug>, project:
-<projectId>).` — note the job id for the next step.
+A workflow triggers a **Run**; the run itself can have a list of
+**Jobs** (each talking to one model — today every workflow only ever
+creates one, but don't assume that stays true). On success this prints
+`Run <id> queued (workflow: <slug>, project: <projectId>).` — note the
+run id for the next step.
 
 ## Step 6: Poll until it finishes
 
 ```bash
-88eggs jobs status <jobId>
+88eggs runs status <runId>
 ```
 
-Prints `Status: queued|running|succeeded|failed`, plus `Error: ...`
-(if failed) and `Result media: <mediaId>` (if succeeded). Re-run this
+Prints the run's own `Status: queued|accepted|running|succeeded|failed`
+plus `Error: ...` (a run-level failure, e.g. no handler registered),
+then a `Jobs:` section — one line per job, each
+`<jobId> -- <model> -- <status> -- $<cost> -- media <mediaId> -- <error>`
+(cost/media/error only appear once that job has them). Re-run this
 every few seconds — a couple of seconds apart is reasonable, don't
-hammer it in a tight loop — until the status is `succeeded` or `failed`.
+hammer it in a tight loop — until the run's own status is `succeeded`
+or `failed`.
 
 ## Step 7: Report the result
 
-- **Succeeded**: tell the user it's done, and if there's a `Result
-  media: <mediaId>`, mention you can pull it up with `88eggs media show
-  <mediaId>` (see the `manage-media` skill) if they want to see it.
-- **Failed**: surface the `Error: ...` message directly — don't guess
-  at a fix or retry silently; ask the user how they'd like to proceed.
+- **Succeeded**: tell the user it's done. For each job that has a
+  `media <mediaId>`, mention you can pull it up with `88eggs media show
+  <mediaId>` (see the `manage-media` skill) if they want to see it —
+  there's usually just one, but report every one that has a result
+  rather than assuming exactly one.
+- **Failed**: surface the run's own `Error: ...` if it has one;
+  otherwise check the `Jobs:` list for which job failed and surface
+  *its* error instead — a run can fail because of one specific job.
+  Don't guess at a fix or retry silently; ask the user how they'd like
+  to proceed.
 
 ### Errors
 
