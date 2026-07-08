@@ -84,21 +84,26 @@ value (e.g. they described what they want the `prompt` to be).
 ## Step 5: Start the run
 
 ```bash
-88eggs workflows run <slug> [--project <projectId>] [--param key=value ...]
+88eggs workflows run <slug> [--project <projectId>] [--name <name>] [--param key=value ...]
 ```
 
 - Omit `--project` to use the caller's oldest project (the run
   endpoint's own default); only pass it if the user named a specific
   project, and confirm which project first if it's ambiguous (run
   `88eggs projects list` to check).
+- `--name` is a label for the run, shown in `runs list`/`runs status`
+  and under each media item it produces — pass one if the user gave a
+  name for this run, or if a descriptive name would help them find it
+  later among many; otherwise omit it and the backend generates one
+  ("`<workflow name> <random word>`") rather than leaving it blank.
 - Repeat `--param key=value` for every field you're overriding; leave
   the rest to fall back to their defaults (Step 4).
 
 A workflow triggers a **Run**; the run itself can have a list of
 **Jobs** (each talking to one model — today every workflow only ever
 creates one, but don't assume that stays true). On success this prints
-`Run <id> queued (workflow: <slug>, project: <projectId>).` — note the
-run id for the next step.
+`Run <id> "<name>" queued (workflow: <slug>, project: <projectId>).` —
+note the run id for the next step.
 
 ## Step 6: Poll until it finishes
 
@@ -106,9 +111,10 @@ run id for the next step.
 88eggs runs status <runId>
 ```
 
-Prints the run's own `Status: queued|accepted|running|succeeded|failed`
-plus `Error: ...` (a run-level failure, e.g. no handler registered),
-then a `Jobs:` section — one line per job, each
+Prints the run's own `Name: ...` (if it has one), `Status:
+queued|accepted|running|succeeded|failed` plus `Error: ...` (a
+run-level failure, e.g. no handler registered), then a `Jobs:`
+section — one line per job, each
 `<jobId> -- <model> -- <status> -- $<cost> -- media <mediaId> -- <error>`
 (cost/media/error only appear once that job has them). Re-run this
 every few seconds — a couple of seconds apart is reasonable, don't

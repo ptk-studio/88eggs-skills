@@ -59,16 +59,21 @@ projects list` first and ask which project (or use the only one, if
 they have just one).
 
 - **List a project's media**: `88eggs media list --project <projectId>`
-  (add `--tag <tag>` to filter, `--page`/`--limit` to paginate). Each
-  line is `<id> -- <type> -- <tags> -- created <timestamp>` (with `--
-  liked` appended when the caller likes it), followed by a `-- page N
-  (limit L, total T)` summary line.
+  (add `--tag <tag>` to filter by tag, `--run-name <name>` to filter by
+  the run that produced it — a partial, case-insensitive match, useful
+  when the user describes what they're looking for by what they named
+  the run rather than by a tag — `--page`/`--limit` to paginate). Each
+  line is `<id> -- <type> -- <tags> -- run "<name>" -- created
+  <timestamp>` (the `run "..."` segment only appears for media that has
+  one; `-- liked` appended when the caller likes it), followed by a
+  `-- page N (limit L, total T)` summary line.
 - **See what tags exist**: `88eggs media tags` (every accessible
   project) or `88eggs media tags --project <projectId>` (one project) —
   useful before filtering a list by tag.
 - **View one item / get a shareable link**: `88eggs media show
-  <mediaId>` — prints its project, type, tags, liked state, and a
-  signed URL (valid 24h; don't cache it beyond that).
+  <mediaId>` — prints its project, type, tags, producing run's name (if
+  it has one), liked state, and a signed URL (valid 24h; don't cache it
+  beyond that).
 - **See what's liked**: `88eggs media liked` (same pagination flags as
   list).
 - **Like / unlike**: `88eggs media like <mediaId>` / `88eggs media
