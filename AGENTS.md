@@ -49,6 +49,12 @@ looks the way it does: a skill's job is to orchestrate the `88eggs` CLI
    manually, then write the skill against the real, working command —
    don't write a skill against a command you're assuming will exist.
 
+## Git workflow
+
+- Every change goes through a pull request — create a feature branch,
+  push it, open a PR, and merge through GitHub. Never commit directly
+  to `main`.
+
 ## Before committing
 
 - No test suite here (there's no code to test) — the bar is: does the
