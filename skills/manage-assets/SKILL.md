@@ -1,11 +1,11 @@
 ---
-name: manage-media
-description: Browse and organize 88eggs media (images/videos) — list a project's media, view one item's signed URL, filter/manage tags, like/unlike, move between projects — by driving the 88eggs CLI. Use when the user asks to see, find, tag, like, or move their 88eggs media, images, or videos.
+name: manage-assets
+description: Browse and organize 88eggs assets (images/videos) — list a project's assets, view one item's signed URL, filter/manage tags, like/unlike, move between projects — by driving the 88eggs CLI. Use when the user asks to see, find, tag, like, or move their 88eggs assets, images, or videos.
 ---
 
-# Manage Media
+# Manage Assets
 
-Browses and organizes the caller's own 88eggs media by driving the
+Browses and organizes the caller's own 88eggs assets by driving the
 [`88eggs` CLI](https://github.com/ptk-studio/88eggs-cli), the same way
 `vercel-labs`'s deploy skill drives the `vercel` CLI. This skill never
 handles a token directly; `88eggs` owns its own login.
@@ -53,34 +53,34 @@ prints "Signed in as `<email>`." on success) before continuing.
 
 ## Step 3: Do what the user actually asked
 
-Media is always scoped to a project. If the user names one, use it; if
+Assets are always scoped to a project. If the user names one, use it; if
 not and the action needs a `--project`/`<projectId>`, run `88eggs
 projects list` first and ask which project (or use the only one, if
 they have just one).
 
-- **List a project's media**: `88eggs media list --project <projectId>`
+- **List a project's assets**: `88eggs assets list --project <projectId>`
   (add `--tag <tag>` to filter by tag, `--run-name <name>` to filter by
   the run that produced it — a partial, case-insensitive match, useful
   when the user describes what they're looking for by what they named
   the run rather than by a tag — `--page`/`--limit` to paginate). Each
   line is `<id> -- <type> -- <tags> -- run "<name>" -- created
-  <timestamp>` (the `run "..."` segment only appears for media that has
+  <timestamp>` (the `run "..."` segment only appears for an asset that has
   one; `-- liked` appended when the caller likes it), followed by a
   `-- page N (limit L, total T)` summary line.
-- **See what tags exist**: `88eggs media tags` (every accessible
-  project) or `88eggs media tags --project <projectId>` (one project) —
+- **See what tags exist**: `88eggs assets tags` (every accessible
+  project) or `88eggs assets tags --project <projectId>` (one project) —
   useful before filtering a list by tag.
-- **View one item / get a shareable link**: `88eggs media show
-  <mediaId>` — prints its project, type, tags, producing run's name (if
+- **View one item / get a shareable link**: `88eggs assets show
+  <assetId>` — prints its project, type, tags, producing run's name (if
   it has one), liked state, and a signed URL (valid 24h; don't cache it
   beyond that).
-- **See what's liked**: `88eggs media liked` (same pagination flags as
+- **See what's liked**: `88eggs assets liked` (same pagination flags as
   list).
-- **Like / unlike**: `88eggs media like <mediaId>` / `88eggs media
-  unlike <mediaId>`.
-- **Add / remove a tag**: `88eggs media tag add <mediaId> <tag>` /
-  `88eggs media tag remove <mediaId> <tag>`.
-- **Move to a different project**: `88eggs media move <mediaId>
+- **Like / unlike**: `88eggs assets like <assetId>` / `88eggs assets
+  unlike <assetId>`.
+- **Add / remove a tag**: `88eggs assets tag add <assetId> <tag>` /
+  `88eggs assets tag remove <assetId> <tag>`.
+- **Move to a different project**: `88eggs assets move <assetId>
   <projectId>` — confirm the destination project with the user before
   running this; it changes who else can see the item (anyone with
   access to the new project, not just the old one).
