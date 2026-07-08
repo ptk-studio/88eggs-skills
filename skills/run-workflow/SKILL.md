@@ -92,7 +92,7 @@ value (e.g. they described what they want the `prompt` to be).
   project, and confirm which project first if it's ambiguous (run
   `88eggs projects list` to check).
 - `--name` is a label for the run, shown in `runs list`/`runs status`
-  and under each media item it produces — pass one if the user gave a
+  and under each asset it produces — pass one if the user gave a
   name for this run, or if a descriptive name would help them find it
   later among many; otherwise omit it and the backend generates one
   ("`<workflow name> <random word>`") rather than leaving it blank.
@@ -115,17 +115,17 @@ Prints the run's own `Name: ...` (if it has one), `Status:
 queued|accepted|running|succeeded|failed` plus `Error: ...` (a
 run-level failure, e.g. no handler registered), then a `Jobs:`
 section — one line per job, each
-`<jobId> -- <model> -- <status> -- $<cost> -- media <mediaId> -- <error>`
-(cost/media/error only appear once that job has them). Re-run this
+`<jobId> -- <model> -- <status> -- $<cost> -- asset <assetId> -- <error>`
+(cost/asset/error only appear once that job has them). Re-run this
 every few seconds — a couple of seconds apart is reasonable, don't
 hammer it in a tight loop — until the run's own status is `succeeded`
 or `failed`.
 
 ## Step 7: Report the result
 
-- **Succeeded**: tell the user it's done. For each job that has a
-  `media <mediaId>`, mention you can pull it up with `88eggs media show
-  <mediaId>` (see the `manage-media` skill) if they want to see it —
+- **Succeeded**: tell the user it's done. For each job that has an
+  `asset <assetId>`, mention you can pull it up with `88eggs assets show
+  <assetId>` (see the `manage-assets` skill) if they want to see it —
   there's usually just one, but report every one that has a result
   rather than assuming exactly one.
 - **Failed**: surface the run's own `Error: ...` if it has one;

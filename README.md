@@ -20,17 +20,17 @@ same things a user would otherwise do by clicking around the 88eggs UI.
 
 This started with a single **read-only sample skill** listing existing
 projects, to prove out the calling convention before there was anything
-to automate. Now that `88eggs-backend` has shipped the media API and the
+to automate. Now that `88eggs-backend` has shipped the assets API and the
 workflows framework (catalog + runs (each with a list of jobs, one per
 model called) + queue/worker — see
 `88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`),
-this repo also has skills to browse/organize media and to actually run
+this repo also has skills to browse/organize assets and to actually run
 a workflow end to end. Character Creation is the first concrete
 workflow to ship (image generation via Gemini or OpenAI's
 `gpt-image-1`), so `run-workflow` drives a real catalog entry now, not
 just an empty one. `88eggs-backend` also shipped Events (see
 `88eggs-backend/features/completed/260707161500-feature-backend-events.md`)
-— a durable log of that same run/job/media activity — so `view-events`
+— a durable log of that same run/job/asset activity — so `view-events`
 can answer "what happened" without re-deriving it from `runs status`
 calls one at a time.
 
@@ -59,14 +59,14 @@ existed to do this properly instead.)
 
 - **[list-projects](skills/list-projects/SKILL.md)** — list the
   signed-in user's 88eggs projects via `88eggs projects list`.
-- **[manage-media](skills/manage-media/SKILL.md)** — browse and
-  organize 88eggs media: list, view, tag, like, and move between
+- **[manage-assets](skills/manage-assets/SKILL.md)** — browse and
+  organize 88eggs assets: list, view, tag, like, and move between
   projects.
 - **[run-workflow](skills/run-workflow/SKILL.md)** — browse the
   workflow catalog, configure and start a run, poll it to completion,
   and report the result.
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
-  log (runs/jobs starting and finishing, media added), across every
+  log (runs/jobs starting and finishing, asset added), across every
   accessible project or scoped to one.
 
 ## Skill structure

@@ -1,20 +1,20 @@
 ---
 name: view-events
-description: Browse the 88eggs activity log -- runs and jobs starting/finishing, media being added -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
+description: Browse the 88eggs activity log -- runs and jobs starting/finishing, assets being added -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
 ---
 
 # View Events
 
 Browses 88eggs' **event log** — a durable, append-only record of "a Run
-started," "a Run finished," "a Job started," "a Job finished," "a Media
-item was added" — by driving the
+started," "a Run finished," "a Job started," "a Job finished," "an Asset
+was added" — by driving the
 [`88eggs` CLI](https://github.com/ptk-studio/88eggs-cli), the same way
 `vercel-labs`'s deploy skill drives the `vercel` CLI. This skill never
 handles a token directly, and never calls `88eggs-backend` with
 `curl`/`fetch` itself; `88eggs` owns its own login and every API call.
 
 Events are produced automatically by the backend (database triggers on
-Runs/Jobs/Media) — nothing here creates or modifies an event, this
+Runs/Jobs/Assets) — nothing here creates or modifies an event, this
 skill is read-only.
 
 ## Step 1: Check the CLI is installed
@@ -64,7 +64,7 @@ before continuing.
 Prints one line per known event type: `<key> -- <label> -- <description>
 -- fields: <payload field names>`. Useful if the user asks "what can I
 even filter by" — the `<key>` values (`run_started`, `run_finished`,
-`job_started`, `job_finished`, `media_added`) are exactly what
+`job_started`, `job_finished`, `asset_added`) are exactly what
 `--type` in Step 4 takes.
 
 ## Step 4: List events
@@ -79,7 +79,7 @@ even filter by" — the `<key>` values (`run_started`, `run_finished`,
   `list-projects` skill).
 - Omit `--type` for everything; pass one of the keys from Step 3 to
   filter to just that kind of event (e.g. the user asks "what images
-  got generated recently" → `--type media_added`).
+  got generated recently" → `--type asset_added`).
 - Defaults to page 1 at a reasonable page size; only pass `--page`/
   `--limit` if the user is paging through a long list.
 
