@@ -26,8 +26,13 @@ model called) + queue/worker — see
 `88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`),
 this repo also has skills to browse/organize media and to actually run
 a workflow end to end. Character Creation is the first concrete
-workflow to ship (image generation via Gemini), so `run-workflow` drives
-a real catalog entry now, not just an empty one.
+workflow to ship (image generation via Gemini or OpenAI's
+`gpt-image-1`), so `run-workflow` drives a real catalog entry now, not
+just an empty one. `88eggs-backend` also shipped Events (see
+`88eggs-backend/features/completed/260707161500-feature-backend-events.md`)
+— a durable log of that same run/job/media activity — so `view-events`
+can answer "what happened" without re-deriving it from `runs status`
+calls one at a time.
 
 ## Authentication
 
@@ -60,6 +65,9 @@ existed to do this properly instead.)
 - **[run-workflow](skills/run-workflow/SKILL.md)** — browse the
   workflow catalog, configure and start a run, poll it to completion,
   and report the result.
+- **[view-events](skills/view-events/SKILL.md)** — browse the activity
+  log (runs/jobs starting and finishing, media added), across every
+  accessible project or scoped to one.
 
 ## Skill structure
 
