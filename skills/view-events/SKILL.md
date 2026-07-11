@@ -1,20 +1,21 @@
 ---
 name: view-events
-description: Browse the 88eggs activity log -- runs and jobs starting/finishing, assets being added -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
+description: Browse the 88eggs activity log -- runs and jobs starting/finishing, assets being added, apps installed/uninstalled, workers starting/finishing runs -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
 ---
 
 # View Events
 
 Browses 88eggs' **event log** — a durable, append-only record of "a Run
 started," "a Run finished," "a Job started," "a Job finished," "an Asset
-was added" — by driving the
+was added," "an App was installed," "an App was uninstalled," "a Worker
+started a run," "a Worker finished a run" — by driving the
 [`88eggs` CLI](https://github.com/ptk-studio/88eggs-cli), the same way
 `vercel-labs`'s deploy skill drives the `vercel` CLI. This skill never
 handles a token directly, and never calls `88eggs-backend` with
 `curl`/`fetch` itself; `88eggs` owns its own login and every API call.
 
 Events are produced automatically by the backend (database triggers on
-Runs/Jobs/Assets) — nothing here creates or modifies an event, this
+Runs/Jobs/Assets/Apps) — nothing here creates or modifies an event, this
 skill is read-only.
 
 ## Step 1: Check the CLI is installed
@@ -64,8 +65,11 @@ before continuing.
 Prints one line per known event type: `<key> -- <label> -- <description>
 -- fields: <payload field names>`. Useful if the user asks "what can I
 even filter by" — the `<key>` values (`run_started`, `run_finished`,
-`job_started`, `job_finished`, `asset_added`) are exactly what
-`--type` in Step 4 takes.
+`job_started`, `job_finished`, `asset_added`, `app_installed`,
+`app_uninstalled`, `worker_started`, `worker_finished`) are exactly what
+`--type` in Step 4 takes. Don't hardcode this list when reasoning about
+what's available — run `events types` to see the live catalog, since new
+types get added over time.
 
 ## Step 4: List events
 

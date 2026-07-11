@@ -65,9 +65,13 @@ existed to do this properly instead.)
 - **[run-workflow](skills/run-workflow/SKILL.md)** — browse the
   workflow catalog, configure and start a run, poll it to completion,
   and report the result.
+- **[manage-apps](skills/manage-apps/SKILL.md)** — browse the app
+  catalog (App Store) and manage a project's installed apps: install,
+  list, show, uninstall, and list an app's pages.
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
-  log (runs/jobs starting and finishing, asset added), across every
-  accessible project or scoped to one.
+  log (runs/jobs starting/finishing, assets added, apps installed/
+  uninstalled, workers starting/finishing runs), across every accessible
+  project or scoped to one.
 
 ## Skill structure
 

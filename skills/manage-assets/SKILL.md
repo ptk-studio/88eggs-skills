@@ -59,23 +59,23 @@ projects list` first and ask which project (or use the only one, if
 they have just one).
 
 - **List a project's assets**: `88eggs assets list --project <projectId>`
-  (add `--tag <tag>` to filter by tag, `--run-name <name>` to filter by
-  the run that produced it — a partial, case-insensitive match, useful
-  when the user describes what they're looking for by what they named
-  the run rather than by a tag — `--page`/`--limit` to paginate). Each
-  line is `<id> -- <type> -- <tags> -- run "<name>" -- created
-  <timestamp>` (the `run "..."` segment only appears for an asset that has
-  one; `-- liked` appended when the caller likes it), followed by a
-  `-- page N (limit L, total T)` summary line.
+  (add `--tag <tag>` to filter by tag, `--name <name>` to filter by the
+  asset's own name — a partial, case-insensitive match — `--type
+  image|video|audio` to filter by type, `--page`/`--limit` to paginate).
+  Each line is `<id> "<name>" -- <type> -- <tags> -- run "<runName>" --
+  created <timestamp>` (the `"<name>"` and `run "..."` segments only
+  appear when present; `-- liked` appended when the caller likes it),
+  followed by a `-- page N (limit L, total T)` summary line.
 - **See what tags exist**: `88eggs assets tags` (every accessible
   project) or `88eggs assets tags --project <projectId>` (one project) —
   useful before filtering a list by tag.
 - **View one item / get a shareable link**: `88eggs assets show
-  <assetId>` — prints its project, type, tags, producing run's name (if
-  it has one), liked state, and a signed URL (valid 24h; don't cache it
-  beyond that).
-- **See what's liked**: `88eggs assets liked` (same pagination flags as
-  list).
+  <assetId>` — prints its name/description (if set), project, type, tags,
+  producing run's name (if it has one), liked state, and a signed URL
+  (valid 24h; don't cache it beyond that).
+- **See what's liked**: `88eggs assets liked` (every accessible project),
+  or `88eggs assets liked --project <projectId>` to scope to one (same
+  pagination flags as list).
 - **Like / unlike**: `88eggs assets like <assetId>` / `88eggs assets
   unlike <assetId>`.
 - **Add / remove a tag**: `88eggs assets tag add <assetId> <tag>` /
