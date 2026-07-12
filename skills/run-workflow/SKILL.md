@@ -113,21 +113,27 @@ note the run id for the next step.
 
 Prints the run's own `Name: ...` (if it has one), `Status:
 queued|accepted|running|succeeded|failed` plus `Error: ...` (a
-run-level failure, e.g. no handler registered), then a `Jobs:`
-section — one line per job, each
-`<jobId> -- <model> -- <status> -- $<cost> -- asset <assetId> -- <error>`
-(cost/asset/error only appear once that job has them). Re-run this
-every few seconds — a couple of seconds apart is reasonable, don't
+run-level failure, e.g. no handler registered), an `Outputs: {...}` line
+if the run produced run-level outputs (non-asset results, e.g. a
+published video URL), then a `Jobs:` section — one line per job, each
+`<jobId> -- <model> -- <status> -- $<cost> -- asset <assetId> -- {<outputs>} -- <error>`
+(cost/asset/outputs/error only appear once that job has them). Re-run
+this every few seconds — a couple of seconds apart is reasonable, don't
 hammer it in a tight loop — until the run's own status is `succeeded`
 or `failed`.
 
 ## Step 7: Report the result
 
-- **Succeeded**: tell the user it's done. For each job that has an
-  `asset <assetId>`, mention you can pull it up with `88eggs assets show
-  <assetId>` (see the `manage-assets` skill) if they want to see it —
-  there's usually just one, but report every one that has a result
-  rather than assuming exactly one.
+- **Succeeded**: tell the user it's done, then report what it produced —
+  a run can produce either **assets** or **outputs** (or both):
+  - For each job that has an `asset <assetId>`, mention you can pull it
+    up with `88eggs assets show <assetId>` (see the `manage-assets`
+    skill) if they want to see it — there's usually just one, but report
+    every one that has an asset rather than assuming exactly one.
+  - If the run has an `Outputs: {...}` line, or a job line ends with
+    `{...}`, that's a non-asset result (e.g. a published video URL) —
+    surface it directly to the user; don't assume every workflow ends in
+    an asset.
 - **Failed**: surface the run's own `Error: ...` if it has one;
   otherwise check the `Jobs:` list for which job failed and surface
   *its* error instead — a run can fail because of one specific job.
