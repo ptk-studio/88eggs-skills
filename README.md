@@ -9,29 +9,30 @@ npx skills add ptk-studio/88eggs-skills --skill <skill-name>
 
 ## Why this exists
 
-88eggs' product direction is a set of **workflows** — packaged,
-app-like automations a user configures and runs to automate their own
-business functions, each tied to one of their projects (see
+88eggs' product direction is a set of **task definitions** — packaged,
+app-like automations a user configures and starts to automate their own
+business functions, each task tied to one of their projects (this began
+as "workflows"; see
 `88eggs-frontend/features/pending/260706191522-feature-frontend-workflows-platform.md`
-for the in-progress design). Once workflows exist, the point of this
-repo is for an agent to be able to **drive them** directly — browse
-what's available, configure one, kick off a run, check its status — the
-same things a user would otherwise do by clicking around the 88eggs UI.
+for the original design). The point of this repo is for an agent to be
+able to **drive them** directly — browse the catalog, configure one,
+start a task, check its status — the same things a user would otherwise
+do by clicking around the 88eggs UI.
 
 This started with a single **read-only sample skill** listing existing
 projects, to prove out the calling convention before there was anything
 to automate. Now that `88eggs-backend` has shipped the assets API and the
-workflows framework (catalog + runs (each with a list of jobs, one per
-model called) + queue/worker — see
-`88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`),
+tasks framework (a task-definition catalog + tasks + queue/worker —
+originally the "workflows framework", see
+`88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`;
+`88eggs-backend/docs/TASK_DEFINITIONS.md` is the live catalog doc),
 this repo also has skills to browse/organize assets and to actually run
-a workflow end to end. Character Creation is the first concrete
-workflow to ship (image generation via Gemini or OpenAI's
-`gpt-image-1`), so `run-workflow` drives a real catalog entry now, not
-just an empty one. `88eggs-backend` also shipped Events (see
+a task end to end. Image Generator Task was the first concrete
+catalog entry (image generation via Gemini or OpenAI's `gpt-image-1`),
+so `start-task` drives a real catalog entry, not an empty one. `88eggs-backend` also shipped Events (see
 `88eggs-backend/features/completed/260707161500-feature-backend-events.md`)
-— a durable log of that same run/job/asset activity — so `view-events`
-can answer "what happened" without re-deriving it from `runs status`
+— a durable log of that same task/asset activity — so `view-events`
+can answer "what happened" without re-deriving it from `tasks status`
 calls one at a time.
 
 ## Authentication
@@ -62,15 +63,15 @@ existed to do this properly instead.)
 - **[manage-assets](skills/manage-assets/SKILL.md)** — browse and
   organize 88eggs assets: list, view, tag, like, and move between
   projects.
-- **[run-workflow](skills/run-workflow/SKILL.md)** — browse the
-  workflow catalog, configure and start a run, poll it to completion,
-  and report the result.
+- **[start-task](skills/start-task/SKILL.md)** — browse the
+  task-definition catalog, configure and start a task, poll it to
+  completion, and report the result.
 - **[manage-apps](skills/manage-apps/SKILL.md)** — browse the app
   catalog (App Store) and manage a project's installed apps: install,
   list, show, uninstall, and list an app's pages.
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
-  log (runs/jobs starting/finishing, assets added, apps installed/
-  uninstalled, workers starting/finishing runs), across every accessible
+  log (tasks starting/finishing, assets added, apps installed/
+  uninstalled, workers picking up tasks), across every accessible
   project or scoped to one.
 
 ## Skill structure

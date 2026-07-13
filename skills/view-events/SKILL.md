@@ -1,21 +1,21 @@
 ---
 name: view-events
-description: Browse the 88eggs activity log -- runs and jobs starting/finishing, assets being added, apps installed/uninstalled, workers starting/finishing runs -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
+description: Browse the 88eggs activity log -- tasks starting/finishing, assets being added, apps installed/uninstalled, workers picking up tasks -- by driving the 88eggs CLI. Use when the user asks what happened, what's the recent activity, or wants to check the event/activity log for a project or across their account.
 ---
 
 # View Events
 
-Browses 88eggs' **event log** — a durable, append-only record of "a Run
-started," "a Run finished," "a Job started," "a Job finished," "an Asset
+Browses 88eggs' **event log** — a durable, append-only record of "a Task
+started," "a Task finished," "an Asset
 was added," "an App was installed," "an App was uninstalled," "a Worker
-started a run," "a Worker finished a run" — by driving the
+started a task," "a Worker finished a task" — by driving the
 [`88eggs` CLI](https://github.com/ptk-studio/88eggs-cli), the same way
 `vercel-labs`'s deploy skill drives the `vercel` CLI. This skill never
 handles a token directly, and never calls `88eggs-backend` with
 `curl`/`fetch` itself; `88eggs` owns its own login and every API call.
 
 Events are produced automatically by the backend (database triggers on
-Runs/Jobs/Assets/Apps) — nothing here creates or modifies an event, this
+Tasks/Assets/Apps/Pipelines) — nothing here creates or modifies an event, this
 skill is read-only.
 
 ## Step 1: Check the CLI is installed
@@ -64,8 +64,8 @@ before continuing.
 
 Prints one line per known event type: `<key> -- <label> -- <description>
 -- fields: <payload field names>`. Useful if the user asks "what can I
-even filter by" — the `<key>` values (`run_started`, `run_finished`,
-`job_started`, `job_finished`, `asset_added`, `app_installed`,
+even filter by" — the `<key>` values (`task_started`, `task_finished`,
+`asset_added`, `app_installed`,
 `app_uninstalled`, `worker_started`, `worker_finished`) are exactly what
 `--type` in Step 4 takes. Don't hardcode this list when reasoning about
 what's available — run `events types` to see the live catalog, since new
@@ -87,14 +87,14 @@ types get added over time.
 - Defaults to page 1 at a reasonable page size; only pass `--page`/
   `--limit` if the user is paging through a long list.
 
-Each line is `<eventId> -- <eventTypeKey> -- run <runId> -- <createdAt>`
-(the `run <runId>` segment is omitted for an event with no associated
-run). Events print newest-first.
+Each line is `<eventId> -- <eventTypeKey> -- task <taskId> -- <createdAt>`
+(the `task <taskId>` segment is omitted for an event with no associated
+task). Events print newest-first.
 
 ## Step 5: Report the result
 
 Summarize what happened in plain language rather than dumping the raw
-command output — e.g. "3 runs finished and 2 images were added in the
+command output — e.g. "3 tasks finished and 2 images were added in the
 last few events" rather than reprinting every line verbatim, unless the
 user specifically wants the raw list. If they ask about one specific
 run or job's activity, cross-reference the `run_id`/`entity_id` against

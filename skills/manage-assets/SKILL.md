@@ -62,8 +62,8 @@ they have just one).
   (add `--tag <tag>` to filter by tag, `--name <name>` to filter by the
   asset's own name — a partial, case-insensitive match — `--type
   image|video|audio` to filter by type, `--page`/`--limit` to paginate).
-  Each line is `<id> "<name>" -- <type> -- <tags> -- run "<runName>" --
-  created <timestamp>` (the `"<name>"` and `run "..."` segments only
+  Each line is `<id> "<name>" -- <type> -- <tags> -- task "<taskName>" --
+  created <timestamp>` (the `"<name>"` and `task "..."` segments only
   appear when present; `-- liked` appended when the caller likes it),
   followed by a `-- page N (limit L, total T)` summary line.
 - **See what tags exist**: `88eggs assets tags` (every accessible
@@ -71,7 +71,7 @@ they have just one).
   useful before filtering a list by tag.
 - **View one item / get a shareable link**: `88eggs assets show
   <assetId>` — prints its name/description (if set), project, type, tags,
-  producing run's name (if it has one), liked state, and a signed URL
+  producing task's name (if it has one), liked state, and a signed URL
   (valid 24h; don't cache it beyond that).
 - **See what's liked**: `88eggs assets liked` (every accessible project),
   or `88eggs assets liked --project <projectId>` to scope to one (same
