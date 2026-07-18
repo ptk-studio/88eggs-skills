@@ -69,6 +69,10 @@ existed to do this properly instead.)
 - **[manage-apps](skills/manage-apps/SKILL.md)** — browse the app
   catalog (App Store) and manage a project's installed apps: install,
   list, show, uninstall, and list an app's pages.
+- **[manage-data-tables](skills/manage-data-tables/SKILL.md)** — create
+  and manage a project's data tables and their rows: create with
+  columns, edit the schema, list/add/update/delete rows, archive/restore,
+  and publish a table's schema as a template.
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
   log (tasks starting/finishing, assets added, apps installed/
   uninstalled, workers picking up tasks), across every accessible
