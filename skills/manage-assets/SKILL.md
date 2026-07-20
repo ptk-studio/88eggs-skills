@@ -1,6 +1,6 @@
 ---
 name: manage-assets
-description: Browse and organize 88eggs assets (images/videos) — list a project's assets, view one item's signed URL, filter/manage tags, like/unlike, move between projects — by driving the 88eggs CLI. Use when the user asks to see, find, tag, like, or move their 88eggs assets, images, or videos.
+description: Browse and organize 88eggs assets (images/videos) — list a project's assets, view one item's signed URL, filter by name/type, move between projects — by driving the 88eggs CLI. Use when the user asks to see, find, or move their 88eggs assets, images, or videos.
 ---
 
 # Manage Assets
@@ -59,35 +59,24 @@ projects list` first and ask which project (or use the only one, if
 they have just one).
 
 - **List a project's assets**: `88eggs assets list --project <projectId>`
-  (add `--tag <tag>` to filter by tag, `--name <name>` to filter by the
-  asset's own name — a partial, case-insensitive match — `--type
-  image|video|audio` to filter by type, `--page`/`--limit` to paginate).
-  Each line is `<id> "<name>" -- <type> -- <tags> -- task "<taskName>" --
-  created <timestamp>` (the `"<name>"` and `task "..."` segments only
-  appear when present; `-- liked` appended when the caller likes it),
-  followed by a `-- page N (limit L, total T)` summary line.
-- **See what tags exist**: `88eggs assets tags` (every accessible
-  project) or `88eggs assets tags --project <projectId>` (one project) —
-  useful before filtering a list by tag.
+  (add `--name <name>` to filter by the asset's own name — a partial,
+  case-insensitive match — `--type image|video|audio` to filter by type,
+  `--page`/`--limit` to paginate). Each line is `<id> "<name>" -- <type>
+  -- task "<taskName>" -- created <timestamp>` (the `"<name>"` and `task
+  "..."` segments only appear when present), followed by a `-- page N
+  (limit L, total T)` summary line.
 - **View one item / get a shareable link**: `88eggs assets show
-  <assetId>` — prints its name/description (if set), project, type, tags,
-  producing task's name (if it has one), liked state, and a signed URL
-  (valid 24h; don't cache it beyond that).
-- **See what's liked**: `88eggs assets liked` (every accessible project),
-  or `88eggs assets liked --project <projectId>` to scope to one (same
-  pagination flags as list).
-- **Like / unlike**: `88eggs assets like <assetId>` / `88eggs assets
-  unlike <assetId>`.
-- **Add / remove a tag**: `88eggs assets tag add <assetId> <tag>` /
-  `88eggs assets tag remove <assetId> <tag>`.
+  <assetId>` — prints its name/description (if set), project, type,
+  producing task's name (if it has one), and a signed URL (valid 24h;
+  don't cache it beyond that).
 - **Move to a different project**: `88eggs assets move <assetId>
   <projectId>` — confirm the destination project with the user before
   running this; it changes who else can see the item (anyone with
   access to the new project, not just the old one).
 
 Present results to the user as a short summary, not raw command output
-verbatim — e.g. "You have 12 images tagged `hero-shot` in Acme
-Launch, most recent from March 3rd," not a pasted list.
+verbatim — e.g. "You have 12 images in Acme Launch, most recent from
+March 3rd," not a pasted list.
 
 ### Errors
 
