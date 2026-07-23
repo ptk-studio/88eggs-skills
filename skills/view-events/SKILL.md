@@ -97,8 +97,8 @@ Summarize what happened in plain language rather than dumping the raw
 command output — e.g. "3 tasks finished and 2 images were added in the
 last few events" rather than reprinting every line verbatim, unless the
 user specifically wants the raw list. If they ask about one specific
-run or job's activity, cross-reference the `run_id`/`entity_id` against
-`88eggs runs status <runId>` (see the `run-workflow` skill) for the
+task run's activity, cross-reference the `task_run_id`/`entity_id` against
+`88eggs task-runs status <taskRunId>` (see the `start-task` skill) for the
 fuller picture rather than trying to explain everything from the event
 log's own short summary line.
 
