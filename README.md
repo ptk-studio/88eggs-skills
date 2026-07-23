@@ -9,7 +9,7 @@ npx skills add ptk-studio/88eggs-skills --skill <skill-name>
 
 ## Why this exists
 
-88eggs' product direction is a set of **task definitions** — packaged,
+88eggs' product direction is a set of **tasks** — packaged,
 app-like automations a user configures and starts to automate their own
 business functions, each task tied to one of their projects (this began
 as "workflows"; see
@@ -22,7 +22,7 @@ do by clicking around the 88eggs UI.
 This started with a single **read-only sample skill** listing existing
 projects, to prove out the calling convention before there was anything
 to automate. Now that `88eggs-backend` has shipped the assets API and the
-tasks framework (a task-definition catalog + tasks + queue/worker —
+tasks framework (a task catalog + task runs + queue/worker —
 originally the "workflows framework", see
 `88eggs-backend/features/completed/260707075756-feature-backend-workflows-framework.md`;
 `88eggs-backend/docs/TASK_DEFINITIONS.md` is the live catalog doc),
@@ -64,7 +64,7 @@ existed to do this properly instead.)
   organize 88eggs assets: list, view, tag, like, and move between
   projects.
 - **[start-task](skills/start-task/SKILL.md)** — browse the
-  task-definition catalog, configure and start a task, poll it to
+  task catalog, configure and start a task, poll it to
   completion, and report the result.
 - **[manage-apps](skills/manage-apps/SKILL.md)** — browse the app
   catalog (App Store) and manage a project's installed apps: install,
