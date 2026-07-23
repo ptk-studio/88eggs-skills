@@ -1,12 +1,12 @@
 ---
 name: start-task
-description: Browse the 88eggs task-definition catalog, configure and start a task, and follow it through to completion by driving the 88eggs CLI. Use when the user asks to run, start, kick off, or configure an 88eggs task, or asks what task definitions/automations are available.
+description: Browse the 88eggs task catalog, configure and start a task, and follow it through to completion by driving the 88eggs CLI. Use when the user asks to run, start, kick off, or configure an 88eggs task, or asks what tasks/automations are available.
 ---
 
 # Start Task
 
 Drives an 88eggs **task** (one packaged, app-like automation run against
-one of the caller's projects) end to end — browse the task-definition
+one of the caller's projects) end to end — browse the task
 catalog, gather parameters, start the task, poll it to completion, and
 report the result — by driving the
 [`88eggs` CLI](https://github.com/ptk-studio/88eggs-cli), the same way
@@ -52,10 +52,10 @@ open your browser to sign in with Google. Want me to proceed?
 Once they confirm, run `88eggs login` and wait for it to complete
 before continuing.
 
-## Step 3: Find the task definition
+## Step 3: Find the task
 
 ```bash
-88eggs task-definitions list
+88eggs tasks list
 ```
 
 Each line is `<slug> -- <name> -- <description>`. If the user already
@@ -64,12 +64,12 @@ ambiguous or they just asked "what can I run," show them the list and
 ask which one.
 
 If the catalog is empty, tell the user — there's nothing to start yet,
-don't invent a task definition.
+don't invent a task.
 
 ## Step 4: Look at its parameter spec
 
 ```bash
-88eggs task-definitions show <slug>
+88eggs tasks show <slug>
 ```
 
 Prints the definition's description and every parameter as `--param
@@ -84,29 +84,29 @@ value (e.g. they described what they want the `prompt` to be).
 ## Step 5: Start the task
 
 ```bash
-88eggs task-definitions start <slug> [--project <projectId>] [--name <name>] [--param key=value ...]
+88eggs tasks start <slug> [--project <projectId>] [--name <name>] [--param key=value ...]
 ```
 
 - Omit `--project` to use the caller's oldest project (the endpoint's
   own default); only pass it if the user named a specific project, and
   confirm which project first if it's ambiguous (run
   `88eggs projects list` to check).
-- `--name` is a label for the task, shown in `tasks list`/`tasks status`
+- `--name` is a label for the task, shown in `task-runs list`/`task-runs status`
   and under each asset it produces — pass one if the user gave a
   name, or if a descriptive name would help them find it later among
   many; otherwise omit it and the backend generates one
-  ("`<task definition name> <random word>`") rather than leaving it
+  ("`<task name> <random word>`") rather than leaving it
   blank.
 - Repeat `--param key=value` for every field you're overriding; leave
   the rest to fall back to their defaults (Step 4).
 
-On success this prints `Task <id> "<name>" queued (task definition:
+On success this prints `Task run <id> "<name>" queued (task:
 <slug>, project: <projectId>).` — note the task id for the next step.
 
 ## Step 6: Poll until it finishes
 
 ```bash
-88eggs tasks status <taskId>
+88eggs task-runs status <taskRunId>
 ```
 
 Prints `Status: queued|accepted|running|succeeded|failed`, plus, as the
@@ -138,7 +138,7 @@ reasonable, don't hammer it in a tight loop — until the status is
 
 - Any non-zero exit with an `Error: ...` line on stderr — surface that
   message directly.
-- `88eggs task-definitions show`/`start` failing with "No task
+- `88eggs tasks show`/`start` failing with "No task
   definition found with slug ..." means the slug doesn't match the
   catalog — re-check Step 3, don't guess at a close spelling.
 - A `401`/session-related failure will say to run `88eggs login` again;
