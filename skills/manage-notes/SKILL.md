@@ -13,8 +13,9 @@ token directly and never calls `88eggs-backend` with `curl`/`fetch` itself;
 `88eggs` owns its own login and every API call.
 
 A **note** is scoped to one project and has:
-- a **path** — a unique slug per project (`^[a-z0-9_-]+$`: lowercase letters,
-  digits, `-`, `_`; no slashes or spaces). This is the note's stable key.
+- a **path** — a unique slug per project (`^[a-zA-Z0-9._-]+$`: letters any
+  case, digits, `.`, `-`, `_`; no slashes or spaces — so `README.md` works).
+  This is the note's stable key.
 - a **name** — the display title.
 - **content** — markdown.
 - a **parent_path** — the path of its parent note (empty = top-level). Notes
@@ -83,7 +84,7 @@ if they have just one — see the `list-projects` skill).
   by its slug: `88eggs notes by-path --project <projectId> --path <slug>`.
 - **Create a note**: `88eggs notes create "<name>" --project <projectId> --path
   <slug> [--content "<markdown>" | --content-file <file.md>] [--parent <path>]`.
-  `--path` must be a valid slug (`^[a-z0-9_-]+$`) and unique among the project's
+  `--path` must be a valid slug (`^[a-zA-Z0-9._-]+$`) and unique among the project's
   active notes. Prefer `--content-file` for anything longer than a line.
   `--parent` nests it under another note (omit for top-level). Example:
   ```bash
@@ -117,7 +118,7 @@ has 4 top-level notes; 'Guides' has 3 children," not a pasted list.
   caller can't access its project — indistinguishable by design
   (`88eggs-backend`'s "404 not 403" convention), so don't imply one over the
   other.
-- A `400` on create/update about the path means the slug isn't `^[a-z0-9_-]+$`,
+- A `400` on create/update about the path means the slug isn't `^[a-zA-Z0-9._-]+$`,
   or a `--parent`/`--top-level` target isn't a real note path in the project
   (or would create a cycle) — fix and retry.
 - A `409` on create/update means another **active** note already holds that
