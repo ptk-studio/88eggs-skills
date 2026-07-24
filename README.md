@@ -73,6 +73,10 @@ existed to do this properly instead.)
   and manage a project's data tables and their rows: create with
   columns, edit the schema, list/add/update/delete rows, archive/restore,
   and publish a table's schema as a template.
+- **[manage-notes](skills/manage-notes/SKILL.md)** — create and manage a
+  project's markdown notes (a per-project wiki): list as a flat list or
+  a tree, read/create/edit content, nest under a parent, cross-link with
+  `[[path]]` and embed assets, and archive/restore.
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
   log (tasks starting/finishing, assets added, apps installed/
   uninstalled, workers picking up tasks), across every accessible
