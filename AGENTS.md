@@ -17,11 +17,11 @@ looks the way it does: a skill's job is to orchestrate the `88eggs` CLI
   an env var. If `88eggs-cli` doesn't yet have a command for something
   a new skill needs, that's a `88eggs-cli` feature to add first, not a
   reason for the skill to route around it.
-- A skill checks auth state via `88eggs whoami` (fast, no network call
-  per `88eggs-cli`'s own design) before doing real work, and only runs
-  `88eggs login` after telling the user and getting their go-ahead —
-  it opens their browser for a real Google sign-in, which needs their
-  own interaction and isn't something to trigger silently.
+- A skill checks auth state via `88eggs whoami` (since 0.10.0 it asks the
+  API, so an ended session reports "not signed in") before doing real
+  work. It never runs `88eggs login` itself: login asks for the user's
+  88eggs username/email and password in a terminal, so the skill tells the
+  user to run it and waits for them.
 - Never log, print, or echo anything from `~/.88eggs/credentials.json`.
   A skill has no reason to read that file directly — everything it
   needs comes back through `88eggs`'s own command output.

@@ -44,16 +44,17 @@ fall back to cloning source.
 - Prints the signed-in email and exits `0` → already signed in, go to Step 3.
 - Prints `Not signed in. Run \`88eggs login\`.` and exits `1` → not signed in.
 
-If not signed in, **tell the user and ask before proceeding** — `88eggs login`
-opens their browser for a real Google sign-in:
+If not signed in, **tell the user; don't run `88eggs login` yourself.** Since
+88eggs-cli 0.10.0, `88eggs login` asks for their 88eggs username (or email)
+and password in a terminal, and only they should type their password:
 
 ```
-You're not signed in to 88eggs. I can run `88eggs login`, which will open
-your browser to sign in with Google. Want me to proceed?
+You're not signed in to 88eggs. Please run `88eggs login` in a terminal
+(it asks for your 88eggs username or email and password), then tell me
+when it says "Signed in as ...".
 ```
 
-Once they confirm, run `88eggs login` and wait for it to complete before
-continuing.
+Wait for them to confirm, re-run `88eggs whoami` to check, then continue.
 
 ## Step 3: Do what the user actually asked
 

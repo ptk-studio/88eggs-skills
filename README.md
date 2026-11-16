@@ -42,12 +42,13 @@ token themselves. Each one drives
 [`88eggs-cli`](https://github.com/ptk-studio/88eggs-cli) — the same
 pattern `vercel-labs/agent-skills`' deploy skill uses for the `vercel`
 CLI, and `supabase/agent-skills` uses for the `supabase` CLI. `88eggs`
-owns its own `login` (real Google OAuth, browser-based) and stores the
-session itself; a skill just checks `88eggs whoami` and runs `88eggs
-login` if needed, same as the reference skills check `vercel whoami` /
-the Supabase MCP connection.
+owns its own `login` (since 0.10.0: the user's 88eggs username/email and
+password, typed in a terminal, sent only to `api.88eggs.com`) and stores the
+session itself; a skill just checks `88eggs whoami` and, if needed, asks the
+user to run `88eggs login`, the same way the reference skills check
+`vercel whoami`.
 
-`88eggs-cli` is published on npm (`npm install -g 88eggs-cli`), so a
+`88eggs-cli` is published on npm (`npm install -g 88eggs-cli`; 0.10.0 or later, earlier versions signed in through the removed Supabase), so a
 skill can install it automatically when missing — same as
 `deploy-to-vercel` installing a missing `vercel` CLI — rather than just
 detecting it's absent and stopping.
