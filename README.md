@@ -78,6 +78,10 @@ existed to do this properly instead.)
   project's markdown notes (a per-project wiki): list as a flat list or
   a tree, read/create/edit content, nest under a parent, cross-link with
   `[[path]]` and embed assets, and archive/restore.
+- **[manage-schedules](skills/manage-schedules/SKILL.md)** — look at
+  Pipeline Sets and their runs (status, cost against the ceiling), and
+  create, change or remove recurring schedules for a pipeline or an
+  active set. Needs a CLI release that has `pipeline-sets` (see the PR).
 - **[view-events](skills/view-events/SKILL.md)** — browse the activity
   log (tasks starting/finishing, assets added, apps installed/
   uninstalled, workers picking up tasks), across every accessible
