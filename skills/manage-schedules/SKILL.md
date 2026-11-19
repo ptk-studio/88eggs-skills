@@ -90,8 +90,16 @@ timezone**, the project, and that it will keep starting runs until disabled.
 
 - `--disabled` creates it paused; prefer it when the user wants to review first.
 - Give every required input of the set through `--param`. Don't guess values.
-- A scheduled set run starts without pausing between steps and is stopped by the
-  daily cost ceiling. Say so.
+- A scheduled set run uses the **set's own pause mode** (`pause_mode` in its
+  settings, `chosen` if unset; `88eggs pipeline-sets show` prints it), so a run may
+  pause for the user at a review step, and a step that sends something publicly
+  always waits for a confirm. It is held to **two** limits: the set's per-run
+  ceiling (`max_cost_usd`, $2 if unset), and the creator's **daily** $15 limit,
+  which is checked **before each start**: if today's runs plus this run's ceiling
+  would pass it, that occurrence is **not started** and the schedule shows as
+  blocked (nothing is spent). The daily limit does not stop a run already going.
+  (Source: 88eggs-worker `src/pipeline/set-schedule.ts`, header lines 7-9 and
+  `prepare`, lines 103-119.)
 - If the API refuses (set not active, bad cron, unknown slug), show its message
   and stop; don't try another route.
 
